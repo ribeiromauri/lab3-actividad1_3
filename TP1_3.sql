@@ -1,0 +1,56 @@
+CREATE DATABASE ACTIVIDAD1_3
+GO
+USE ACTIVIDAD1_3
+GO
+
+CREATE TABLE Clientes (
+	ID INT NOT NULL PRIMARY KEY,
+	FechaNacimiento DATE,
+	Nombre VARCHAR(50) NOT NULL,
+	Apellido VARCHAR(50) NOT NULL,
+	Email VARCHAR(255),
+	Telefono VARCHAR(50),
+	Celular VARCHAR(50),
+	RegistroWeb BIT NOT NULL
+)
+GO
+
+CREATE TABLE Categorias(
+	ID INT NOT NULL PRIMARY KEY,
+	Descripcion VARCHAR(50) NOT NULL
+)
+GO
+
+CREATE TABLE Producto(
+	ID INT NOT NULL PRIMARY KEY,
+	Nombre VARCHAR(50) NOT NULL,
+	Categoria INT NOT NULL FOREIGN KEY REFERENCES Categorias(ID),
+	Precio MONEY NOT NULL,
+	PrecioMayorista MONEY,
+	CantidadMayorista SMALLINT,
+	DiasConstruccion SMALLINT NOT NULL
+)
+GO
+
+CREATE TABLE Pedidos(
+	ID INT NOT NULL PRIMARY KEY IDENTITY (1,1),
+	Producto INT NOT NULL FOREIGN KEY REFERENCES Producto(ID),
+	Cantidad SMALLINT NOT NULL,
+	Cliente INT NOT NULL FOREIGN KEY REFERENCES Clientes(ID),
+	FechaSolicitud DATE NOT NULL,
+	FechaEntrega DATE NOT NULL,
+	Costo MONEY NOT NULL,
+	Abonado BIT NOT NULL
+)
+GO
+
+CREATE TABLE Colaboradores(
+	Legajo INT NOT NULL PRIMARY KEY IDENTITY(1,1),
+	Apellido VARCHAR(50) NOT NULL,
+	Nombre VARCHAR(50) NOT NULL,
+	FechaNacimiento DATE NOT NULL,
+	FechaIngreso DATE NOT NULL CHECK (Year(FechaIngreso) > 1990),
+	SueldoActual MONEY NOT NULL,
+	Modalidad CHAR NOT NULL CHECK (Modalidad = 'P' OR Modalidad = 'F')
+)
+GO
